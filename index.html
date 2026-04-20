@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 1: Orientación y Entorno Profesional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --idat-yellow: #FFC820;
+            --idat-dark: #111827;
+            --idat-muted: #374151;
+            --white: #ffffff;
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(17, 24, 39, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: var(--idat-dark);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Contenedor Principal */
+        .deck {
+            width: 95vw;
+            height: 85vh;
+            max-width: 1200px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra de Progreso */
+        .progress-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(17, 24, 39, 0.05);
+            z-index: 10;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--idat-yellow);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Slides */
+        .slide {
+            display: none;
+            flex: 1;
+            padding: 60px;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            animation: slideIn 0.5s ease-out;
+        }
+        .slide.active { display: flex; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Tipografía */
+        .eyebrow {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--idat-muted);
+            margin-bottom: 12px;
+        }
+        h1 {
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        h1 em { color: var(--idat-yellow); font-style: normal; text-shadow: -1px 1px 0 var(--idat-dark); }
+        
+        .profesor {
+            background: var(--idat-dark);
+            color: var(--idat-yellow);
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Agenda */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .agenda-item {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .agenda-num {
+            background: var(--idat-yellow);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* Contenido de Temas */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .card-topic {
+            background: #fff;
+            border: 2px solid #f3f4f6;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        .card-topic h3 {
+            margin-bottom: 15px;
+            color: var(--idat-dark);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-topic h3::before {
+            content: '';
+            width: 8px;
+            height: 24px;
+            background: var(--idat-yellow);
+            border-radius: 4px;
+        }
+        ul { list-style: none; }
+        li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--idat-yellow);
+            font-weight: 900;
+        }
+
+        /* Footer / Controles */
+        .footer {
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+            border-bottom-left-radius: var(--radius);
+            border-bottom-right-radius: var(--radius);
+        }
+        .nav-btns { display: flex; gap: 15px; }
+        .btn {
+            background: var(--idat-dark);
+            color: var(--idat-yellow);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.9; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .slide-indicator { font-weight: 700; color: var(--idat-muted); font-size: 14px; }
+
+        /* Estilo Agradecimiento */
+        .thanks-container {
+            text-align: center;
+        }
+        .thanks-container h1 { font-size: 80px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="deck">
+    <div class="progress-container">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <!-- SLIDE 1: PORTADA -->
+    <div class="slide active">
+        <div class="eyebrow">Sesión 01 • Desarrollo Web</div>
+        <h1>Orientación y <br><em>Entorno Profesional</em></h1>
+        <div class="profesor">Ing. Jhon Chavez</div>
+    </div>
+
+    <!-- SLIDE 2: AGENDA -->
+    <div class="slide">
+        <div class="eyebrow">Hoja de Ruta</div>
+        <h1>Agenda de la <em>Sesión</em></h1>
+        <div class="agenda-grid">
+            <div class="agenda-item">
+                <div class="agenda-num">1</div>
+                <div><strong>Metodología 2026</strong> y Sílabo</div>
+            </div>
+            <div class="agenda-item">
+                <div class="agenda-num">2</div>
+                <div><strong>VS Code</strong> y Extensiones Pro</div>
+            </div>
+            <div class="agenda-item">
+                <div class="agenda-num">3</div>
+                <div><strong>GitHub & LinkedIn</strong>: Perfil Profesional</div>
+            </div>
+            <div class="agenda-item">
+                <div class="agenda-num">4</div>
+                <div><strong>Hosting y Dominios</strong>: Conceptos Base</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: METODOLOGÍA -->
+    <div class="slide">
+        <div class="eyebrow">Introducción</div>
+        <h1>Metodología y <em>Evaluación</em></h1>
+        <div class="content-layout">
+            <div class="card-topic">
+                <h3>El Sílabo 2026</h3>
+                <ul>
+                    <li>Enfoque 100% práctico y orientado a proyectos.</li>
+                    <li>Semanas 1-6: Estructura y Semántica HTML.</li>
+                    <li>Semanas 7-12: Estilos, Layout y Bootstrap.</li>
+                </ul>
+            </div>
+            <div class="card-topic">
+                <h3>Sistema de Calificación</h3>
+                <ul>
+                    <li><strong>Parcial (40%):</strong> Sitio Web Semántico.</li>
+                    <li><strong>Final (60%):</strong> Proyecto Integrador Responsive.</li>
+                    <li>Participación activa en laboratorios semanales.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: HERRAMIENTAS -->
+    <div class="slide">
+        <div class="eyebrow">Entorno de Trabajo</div>
+        <h1>Visual Studio <em>Code</em></h1>
+        <div class="content-layout">
+            <div class="card-topic">
+                <h3>Extensiones Sugeridas</h3>
+                <ul>
+                    <li><strong>Live Server:</strong> Recarga automática en el navegador.</li>
+                    <li><strong>Prettier:</strong> Formateador de código profesional.</li>
+                    <li><strong>Auto Close Tag:</strong> Cierre automático de etiquetas.</li>
+                    <li><strong>Material Icon Theme:</strong> Visualización de archivos.</li>
+                </ul>
+            </div>
+            <div class="card-topic">
+                <h3>Configuración Inicial</h3>
+                <ul>
+                    <li>Habilitar "Auto Save" (Guardado automático).</li>
+                    <li>Configurar la terminal integrada.</li>
+                    <li>Uso de Emmet para maquetación rápida.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: PERFILES PROFESIONALES -->
+    <div class="slide">
+        <div class="eyebrow">Ecosistema Web</div>
+        <h1>Presencia <em>Digital</em></h1>
+        <div class="content-layout">
+            <div class="card-topic">
+                <h3>GitHub</h3>
+                <ul>
+                    <li>Tu portafolio de código en la nube.</li>
+                    <li>Despliegue gratuito con GitHub Pages.</li>
+                    <li>Control de versiones (Git) como estándar.</li>
+                </ul>
+            </div>
+            <div class="card-topic">
+                <h3>LinkedIn</h3>
+                <ul>
+                    <li>Networking con reclutadores IT.</li>
+                    <li>Exposición de tus hitos académicos.</li>
+                    <li>Conexión con la comunidad dev local.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: AGRADECIMIENTO -->
+    <div class="slide thanks-container">
+        <div class="eyebrow">Fin de la presentación</div>
+        <h1>¡Muchas <em>Gracias</em>!</h1>
+        <p style="font-weight: 600; font-size: 20px; color: var(--idat-muted);">Ing. Jhon Chavez • Sesión 01</p>
+        <div style="margin-top: 40px; font-size: 14px; opacity: 0.6;">Dudas o Consultas: Plataforma Virtual IDAT</div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="footer">
+        <div class="slide-indicator" id="counter">1 / 6</div>
+        <div class="nav-btns">
+            <button class="btn" id="prevBtn" onclick="move(-1)" disabled>Anterior</button>
+            <button class="btn" id="nextBtn" onclick="move(1)">Siguiente</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    const bar = document.getElementById('bar');
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function move(dir) {
+        slides[current].classList.remove('active');
+        current += dir;
+        
+        if (current < 0) current = 0;
+        if (current >= total) current = total - 1;
+        
+        slides[current].classList.add('active');
+        update();
+    }
+
+    function update() {
+        // Progreso
+        const progress = ((current + 1) / total) * 100;
+        bar.style.width = progress + '%';
+        
+        // Texto
+        counter.textContent = `${current + 1} / ${total}`;
+        
+        // Botones
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+    }
+
+    // Teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") move(1);
+        if (e.key === "ArrowLeft") move(-1);
+    });
+
+    update();
+</script>
+</body>
+</html>
